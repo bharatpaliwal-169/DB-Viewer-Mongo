@@ -1,5 +1,6 @@
 import {useState,useEffect} from 'react'
 import { useStateContext } from "../../context/StateProvider"
+import Loading from '../Loading'
 const Table = () => {
   const [table,setTable] = useState([]);
   const [columns,setColumns] = useState([]);
@@ -11,8 +12,8 @@ const Table = () => {
       const col = Object.keys(result[2]);
       setColumns(col);
     }
-    
-    console.table(table);
+    setIsLoading(false);    
+    // console.table(table);
     // console.table(columns);
   }, [result,table])
   
@@ -27,23 +28,39 @@ const Table = () => {
   }
   
   const TableContent = ({item}) => {
-    console.log(item);
+    // console.log(typeof(item));
+    var res = "";
+    if(typeof(item) !== "string"){
+      res += JSON.stringify(item);
+    }
+    if(typeof(item) === "string"){
+      res += item.substring(0,40);
+    }
     return (
-        <td>{item}</td>
+        <td className='p-2 border-[2px] truncate'>{res}</td>
     )
   }
 
   if(!table) return null;
+  if(isLoading){
+    return(
+      <>
+        <Loading></Loading>
+        <Loading></Loading>
+        <Loading></Loading>
+      </>
+    )
+  }
   return (
     <>
       <section className="container px-4 mx-auto">
         <div className="flex flex-col mt-6">
           <div className="mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg  rounded-lg shadow-lg bg-slate-50">
 
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-800">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-auto">
+                  <thead className="bg-gray-200 dark:bg-gray-800">
                     <tr>
                       {columns.map( (item,index) => {
                         return(
@@ -58,10 +75,10 @@ const Table = () => {
                       const rows = Object.values(item);
                       return(
                         <tr>
-                          {console.log(rows)}
-                          {rows.map((val)=> {
+                          {/* {console.log(rows)} */}
+                          {rows.map((val,index)=> {
                             return(
-                              <TableContent item={val} key={val}></TableContent>
+                              <TableContent item={val} key={index}></TableContent>
                             )
                           })}
 

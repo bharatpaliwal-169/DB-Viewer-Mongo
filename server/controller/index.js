@@ -30,12 +30,12 @@ export const fetchTableContent = async(req,res) => {
     }
     
     const result = await table.find({}).toArray();
-    // const safeResults = result.map((item)=>{
-    //   const {password , ...rest} = item;
-    //   return rest;
-    // })
-    console.log(`Data fetched for ${tableName} : ${result.length}`);
-    return res.status(200).json(result);
+    const safeResults = result.map((item)=>{
+      const {__v , ...rest} = item;
+      return rest;
+    })
+    console.log(`Data fetched for ${tableName} : ${safeResults.length}`);
+    return res.status(200).json(safeResults);
   } catch (error) {
     console.log("[fetchTableContent] :"+error);
     return res.status(500).json({message:"Something went wrong! Unable to fetch content of this table"})

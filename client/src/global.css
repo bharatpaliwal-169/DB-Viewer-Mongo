@@ -11,9 +11,26 @@
     @apply px-4 py-4 text-xl whitespace-nowrap;
   },
   .col-data{
-    @apply py-3.5 px-4 text-xl font-bold text-left text-gray-500 dark:text-gray-400;
+    @apply p-4 text-3xl font-extrabold text-center text-gray-600 dark:text-gray-400;
   },
   .input-box{
     @apply block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-4 h-32 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: darkgrey; 
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(114, 114, 114); 
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
