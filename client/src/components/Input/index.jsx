@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import { useStateContext } from '../../context/StateProvider';
+
 const Input = () => {
   const [value,setValue] = useState('');
 

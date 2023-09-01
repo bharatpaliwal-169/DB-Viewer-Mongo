@@ -1,6 +1,5 @@
 import Input from './components/Input';
 import Table from './components/Table';
-
 const App = () => {
   return (
     <main className="p-2">

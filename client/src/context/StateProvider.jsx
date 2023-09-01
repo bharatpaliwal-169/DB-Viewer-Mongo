@@ -3,14 +3,14 @@ import { createContext,useContext,useState} from 'react'
 // create a context
 const StateContext = createContext();
 
-const API = "http://localhost:8000";
+const API = "https://localhost:8000";
 
 // service layer functions
 // eslint-disable-next-line react/prop-types
 export const StateContextProvider = ({children}) => {
   const [result,setResult] = useState();
   const [isLoading,setIsLoading] = useState(false);
-
+  
   const getData = async(tableName) => {
     setIsLoading(true)
     const response = await fetch(`${API}/table/?tableName=${tableName}`,{
@@ -20,7 +20,7 @@ export const StateContextProvider = ({children}) => {
       }
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setResult(data);
     setIsLoading(false)
   }
