@@ -5,10 +5,21 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cluster from 'cluster';
 import os from 'os';
+import fs from 'fs';
+import http2 from 'http2';
+import http2Express from 'http2-express-bridge';
 
 import dbRoutes from './routes/index.js'
 //base
-const app = express();
+// const app = express();
+const app = http2Express(express);
+const options = {
+  key: fs.readFileSync('./keys/key.pem'),
+  cert: fs.readFileSync('./keys/cert.pem'),
+  allowHTTP1: true
+}
+
+
 app.use(bodyParser.json({limit: "50mb",extended : true}));
 app.use(bodyParser.urlencoded({limit: "50mb",extended : true}));
 app.use(cors());
@@ -36,7 +47,10 @@ if (cluster.isPrimary) {
 
   //DB_CONNECT
   mongoose.connect(DB_SERVER_URL)
-    .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
+    .then(() => 
+      // app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`))
+      http2.createSecureServer(options,app).listen(PORT,()=> console.log(`Server Running on Port: https://localhost:${PORT}`))
+      )
     .catch((error) => console.error(`${error} did not connect`));
   
   
@@ -45,5 +59,3 @@ if (cluster.isPrimary) {
   });
   app.use('/',dbRoutes);
 }
-
-export default app;
