@@ -38,7 +38,7 @@ export const StateContextProvider = ({children}) => {
       setIsLoading(false);
     } catch (error) {
       console.log(`[getTables: ] ${error}`);
-      setFetchTables(null);
+      setFetchTables(['null']);
       setIsLoading(false);
     }
   }
